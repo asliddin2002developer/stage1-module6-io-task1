@@ -15,13 +15,13 @@ public class FileReader {
 
     public Profile getDataFromFile(File file) {
         StringBuilder s = new StringBuilder();
-        try (java.io.FileReader inputStream = new java.io.FileReader(file.getPath());) {
+        try (java.io.FileReader inputStream = new java.io.FileReader(file.getPath())) {
             int c;
             while ((c = inputStream.read()) != -1){
-                s.append(Character.toString((char)c));
+                s.append((char)c);
             }
-        } catch (IOException e) {
-            System.err.print(e.toString());;
+        } catch (IOException ex) {
+            ex.toString();
         }
         String stringContentOfFile = s.toString();
 
