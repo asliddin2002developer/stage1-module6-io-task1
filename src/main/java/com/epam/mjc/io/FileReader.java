@@ -1,9 +1,8 @@
 package com.epam.mjc.io;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
+
 
 
 public class FileReader {
@@ -15,31 +14,28 @@ public class FileReader {
     }
 
     public Profile getDataFromFile(File file) {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         try (java.io.FileReader inputStream = new java.io.FileReader(file.getPath());) {
             int c;
             while ((c = inputStream.read()) != -1){
-                s += (char) c;
-//                System.out.println(c);
+                s.append(Character.toString((char)c));
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.print(e.toString());;
         }
+        String stringContentOfFile = s.toString();
+
         String[] cleanedData = new String[4];
-        String[] keyVals = s.split("\n");
+        String[] keyVals = stringContentOfFile.split("\n");
         for (int i = 0; i < keyVals.length; i++) {
             String[] parts = keyVals[i].split(":", 2);
             cleanedData[i] = parts[1].trim();
         }
-        Profile profile = new Profile(
+        return new Profile(
                 cleanedData[0],
                 Integer.valueOf(cleanedData[1]),
                 cleanedData[2],
                 Long.parseLong(cleanedData[3])
         );
-//        System.out.println(profile);
-        return profile;
     }
 }
